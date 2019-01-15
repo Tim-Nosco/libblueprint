@@ -8,6 +8,7 @@ edition = "2018"
 libflate = "*"
 base64 = "*"
 json = "*"
+libc = "*"
 
 [lib]
 name = "blueprint"
