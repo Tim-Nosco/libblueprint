@@ -1,0 +1,14 @@
+[package]
+name = "libblueprint"
+version = "0.1.0"
+authors = ["tmnosco"]
+edition = "2018"
+
+[dependencies]
+compress = "*"
+base64 = "*"
+json = "*"
+
+[lib]
+name = "blueprint"
+crate-type = ["dylib"]
