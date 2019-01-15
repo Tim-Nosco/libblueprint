@@ -5,7 +5,7 @@ authors = ["tmnosco"]
 edition = "2018"
 
 [dependencies]
-compress = "*"
+libflate = "*"
 base64 = "*"
 json = "*"
 
