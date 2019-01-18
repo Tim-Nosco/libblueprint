@@ -40,6 +40,7 @@ version = "0.1.0"
 dependencies = [
  "honggfuzz 0.5.38 (registry+https://github.com/rust-lang/crates.io-index)",
  "libblueprint 0.1.0",
+ "libc 0.2.47 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]

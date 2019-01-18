@@ -34,8 +34,8 @@ impl StdError for Error {
     }
 }
 
-fn decode_helper(s: *const c_char) -> Result<*mut c_char> {
-	//interpret c string
+fn decode_helper(s: *const i8) -> Result<*mut c_char> {
+	// interpret c string
     let c_str = unsafe {
         if s.is_null() {
 			return Err(Error::NullArgument.into());
@@ -61,7 +61,7 @@ fn decode_helper(s: *const c_char) -> Result<*mut c_char> {
 }
 
 #[no_mangle]
-pub extern fn decode(s: *const c_char) -> *mut c_char {
+pub extern fn decode(s: *const i8) -> *mut c_char {
 	match decode_helper(s) {
 		Ok(e) => e,
 		Err(e) => {

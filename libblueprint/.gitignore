@@ -2,6 +2,9 @@
 **/*.rs.bk
 /test/hfuzz/target
 /test/hfuzz/**/*.rs.bk
+
 **/hfuzz_workspace
 **/hfuzz_target
 hfuzz_workspace
+
+**/*.cov
