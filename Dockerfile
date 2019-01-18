@@ -8,4 +8,4 @@ COPY libblueprint .
 RUN cargo install honggfuzz
 
 WORKDIR /src/test/hfuzz
-ENTRYPOINT ["cargo","hfuzz","run","hfuzz_decode"]
+ENTRYPOINT ["cargo","hfuzz","run"]

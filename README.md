@@ -2,13 +2,12 @@
 
 Specification found [here](https://wiki.factorio.com/Blueprint_string_format).
 
-`cargo build --release`
+`cd libblueprint; cargo build --release`
 
 
 To fuzz:
 
 ```bash
-cargo install honggfuzz #requires additional steps see [here](https://crates.io/crates/honggfuzz)
-cd test/hfuzz
-cargo hfuzz run hfuzz_decode
+./build.sh <harness>
+ex: ./build.sh hfuzz_decode
 ```
