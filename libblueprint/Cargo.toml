@@ -7,7 +7,6 @@ authors = ["tmnosco"]
 libflate = "*"
 base64 = "*"
 json = "*"
-libc = "*"
 
 [lib]
 name = "blueprint"
