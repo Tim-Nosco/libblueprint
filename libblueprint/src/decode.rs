@@ -36,16 +36,9 @@ pub fn b64_to_json(s: *const u8, size: usize) -> Result<Vec<u8>> {
     if s.is_null() || size <= 0 {
         return Err(Error::NullArgument.into());
     }
-    let mut r_str: &[u8] = unsafe { 
+    let r_str: &[u8] = unsafe { 
         std::slice::from_raw_parts(s, size)
     };
-    for (idx,elem) in r_str.iter().enumerate() {
-        // println!("DEBUG: element: {:?}:{:?}", idx, elem);
-        if *elem == 0 {
-            r_str = &r_str[..idx-1];
-            break;
-        }
-    }
 	// println!("DEBUG: Found string: {:?}", r_str);
 	
 	//decode the string. spec says to skip the first byte
