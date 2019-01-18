@@ -2,7 +2,6 @@
 name = "libblueprint"
 version = "0.1.0"
 authors = ["tmnosco"]
-edition = "2018"
 
 [dependencies]
 libflate = "*"
@@ -12,4 +11,5 @@ libc = "*"
 
 [lib]
 name = "blueprint"
-crate-type = ["cdylib"]
+path = "src/lib.rs"
+crate-type = ["cdylib", "lib"]

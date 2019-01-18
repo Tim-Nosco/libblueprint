@@ -1,0 +1,13 @@
+[package]
+name = "hfuzz"
+version = "0.1.0"
+authors = ["tmnosco"]
+edition = "2018"
+
+[dependencies]
+honggfuzz = "0.5"
+libblueprint = { path = "../../" }
+
+[[bin]]
+name = "hfuzz_decode"
+path = "src/decode.rs"

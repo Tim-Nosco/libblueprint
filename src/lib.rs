@@ -1,8 +1,9 @@
 extern crate libc;
+extern crate base64;
+extern crate libflate;
 
-use libc::{c_char, uint32_t};
+use libc::c_char;
 use std::ffi::{CString,CStr};
-use base64;
 use libflate::zlib;
 use std::io::Read;
 
@@ -18,7 +19,7 @@ pub extern fn decode(s: *const c_char) -> *mut c_char {
 	println!("DEBUG: Read string: {:?}", r_str);
 	//spec says skip the first byte
 	if r_str.chars().count() <= 1 {
-		return CString::new("").unwrap().into_raw();
+		return CString::new("None").unwrap().into_raw();
 	}
 	let raw = base64::decode(&r_str[1..]).unwrap();
 	//decompress
@@ -29,5 +30,5 @@ pub extern fn decode(s: *const c_char) -> *mut c_char {
 	//print results
 	println!("DEBUG: Decoded data: {:?}", deflated);
 	let deflated = CString::new(deflated).unwrap();
-	deflated.into_raw()
+	return deflated.into_raw();
 }
