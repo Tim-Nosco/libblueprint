@@ -66,6 +66,32 @@ pub fn b64_to_json(s: *const u8, size: usize) -> Result<CString> {
 }
 
 pub fn json_to_grid(s: *const u8, size: usize) -> Result<CString> {
+    //take in some blueprint json string and create a 
+    // new json format that contains an array of integers
+    // representing the unique objects in the blueprint
+    /* example grid:
+    {   "key": 
+        [
+            //idx: 0
+            {"name": "assembler-2",
+                "recipe": "copper-cable"},
+            //idx: 1
+            {"name": "fast-inserter",
+                "facing": "left"},
+            //idx: 2
+            {"name": "fast-belt",
+                "facing": "up"},
+            //idx: 3
+            {"name": "fast-inserter",
+                "facing": "right"}
+        ]
+        "grid":
+            [[ 0, 0, 0, 3, 2],
+             [ 0, 0, 0,-1, 2],
+             [ 0, 0, 0, 1, 2]]
+    }
+    */
+
     //interpret the input string
     if s.is_null() || size <= 0 {
         return Err(Error::NullArgument.into());
