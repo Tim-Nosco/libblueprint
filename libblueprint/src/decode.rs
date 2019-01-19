@@ -1,8 +1,10 @@
 extern crate base64;
 extern crate libflate;
+extern crate json;
 
 use self::libflate::zlib;
 use std::io::Read;
+use std::str;
 
 use std::ffi::CString;
 use std::fmt;  
@@ -53,19 +55,30 @@ pub fn b64_to_json(s: *const u8, size: usize) -> Result<CString> {
 	let mut deflated = Vec::new();
 	decoder.read_to_end(&mut deflated)?;
 
+    //convert to json (to ensure validity)
+    let parsed = json::parse(
+        &str::from_utf8(&deflated)?
+    )?.dump();
+
     //converting to cstring will error if there are null bytes
-    return Ok(CString::new(deflated)?);
+    return Ok(CString::new(parsed)?);
 
 }
 
-pub fn json_to_grid(s: *const u8, size: usize) -> Result<Vec<u8>> {
+pub fn json_to_grid(s: *const u8, size: usize) -> Result<CString> {
+    //interpret the input string
     if s.is_null() || size <= 0 {
         return Err(Error::NullArgument.into());
     }
     let r_str: &[u8] = unsafe { 
         std::slice::from_raw_parts(s, size)
     };
+    //json-parse the data
+    let parsed = json::parse(
+        &str::from_utf8(&r_str)?
+    )?;
 
-    Ok(r_str.into())
+    //converting to cstring will error if there are null bytes
+    return Ok(CString::new(parsed.dump())?);
 
 }
