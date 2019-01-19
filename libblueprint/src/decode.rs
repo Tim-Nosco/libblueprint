@@ -57,3 +57,15 @@ pub fn b64_to_json(s: *const u8, size: usize) -> Result<CString> {
     return Ok(CString::new(deflated)?);
 
 }
+
+pub fn json_to_grid(s: *const u8, size: usize) -> Result<Vec<u8>> {
+    if s.is_null() || size <= 0 {
+        return Err(Error::NullArgument.into());
+    }
+    let r_str: &[u8] = unsafe { 
+        std::slice::from_raw_parts(s, size)
+    };
+
+    Ok(r_str.into())
+
+}

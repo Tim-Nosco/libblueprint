@@ -18,4 +18,6 @@ if __name__ == "__main__":
     lib = ctypes.cdll.LoadLibrary('target/debug/libblueprint.so')
     lib.decode_to_json.argtypes = (c_char_p,c_uint32)
     lib.decode_to_json.restype = c_char_p
-    print(lib.decode_to_json(*from_file(sys.argv[1])))
+    # print(lib.decode_to_json(*from_file(sys.argv[1])))
+    print(lib.decode_to_json( *test1() ))
+    
