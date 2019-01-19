@@ -4,7 +4,7 @@ extern crate libflate;
 use self::libflate::zlib;
 use std::io::Read;
 
-
+use std::ffi::CString;
 use std::fmt;  
 use std::error::Error as StdError;
 type Result<T> = std::result::Result<T, Box<StdError>>;
@@ -31,7 +31,7 @@ impl StdError for Error {
     }
 }
 
-pub fn b64_to_json(s: *const u8, size: usize) -> Result<Vec<u8>> {
+pub fn b64_to_json(s: *const u8, size: usize) -> Result<CString> {
 	// interpret the input string
     if s.is_null() || size <= 0 {
         return Err(Error::NullArgument.into());
@@ -53,6 +53,7 @@ pub fn b64_to_json(s: *const u8, size: usize) -> Result<Vec<u8>> {
 	let mut deflated = Vec::new();
 	decoder.read_to_end(&mut deflated)?;
 
-    return Ok(deflated);
+    //converting to cstring will error if there are null bytes
+    return Ok(CString::new(deflated)?);
 
 }

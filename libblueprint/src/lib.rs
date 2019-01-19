@@ -5,11 +5,11 @@ use std::ffi::CString;
 pub extern fn decode_to_json(s: *const u8, size: usize) -> *mut u8 {
 	//call the helper function (easy error passing)
 	match b64_to_json(s, size) {
-		Ok(mut e) => e.as_mut_ptr(),
+		Ok(e) => e,
 		Err(e) => {
 			println!("WARNING: {}", e);
 			//default case
-			CString::new("None").unwrap().into_raw() as *mut u8
+			CString::new("None").unwrap()
 		}
-	}
+	}.into_raw() as *mut u8
 }
