@@ -3,8 +3,6 @@
 extern crate blueprint;
 use blueprint::{decode_to_json, decode_to_grid};
 
-use std::ffi::CStr;
-
 fn main() {
     loop {
         fuzz!(|data: &[u8]| {
@@ -13,7 +11,7 @@ fn main() {
 
             //call export2
             let ret2 = decode_to_grid(data.as_ptr(), data.len());
-            
+
             //let go of returned memory
             blueprint::free_return(ret);
             blueprint::free_return(ret2);            

@@ -30,6 +30,9 @@ pub extern fn decode_to_grid(s: *const u8, size: usize) -> *mut u8 {
 	}.into_raw() as *mut u8
 }
 
+//pub extern fn encode_to_json
+//pub extern fn encode_to_blueprint
+
 #[no_mangle]
 pub extern fn free_return(s: *mut u8) {
 	unsafe { CString::from_raw(s as *mut i8) };

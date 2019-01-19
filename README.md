@@ -11,3 +11,10 @@ To fuzz:
 ./build.sh <harness>
 ex: ./build.sh hfuzz_decode
 ```
+
+Then in container:
+```bash
+cargo hfuzz run $harness
+or with asan:
+RUSTFLAGS="-Z sanitizer=address" cargo hfuzz run $harness
+```
