@@ -2,5 +2,7 @@
 
 docker build -t bp .
 
-docker run -it --rm -e "HFUZZ_INPUT=/corpus/$1" --privileged \
--v $PWD/libblueprint/test/hfuzz/corpus:/corpus bp $1
+export dir="/src/test/hfuzz"
+docker run -it --rm -e "HFUZZ_INPUT=$dir/corpus/hfuzz_decode" \
+-u `id -u`:`id -g` -w $dir --privileged \
+-v $PWD/libblueprint:/src bp
