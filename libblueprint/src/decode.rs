@@ -117,6 +117,7 @@ pub fn json_to_grid(s: *const u8, size: usize) -> Result<CString> {
         //TODO: wierd bug where splitters are 1/2 coordinate
         //TODO: account for central position coord when 
         // determining min and max position
+        //TODO: https://github.com/maciejhirsz/json-rust/issues/152
         println!("DEBUG: i: {} {:#}", i, entity_arr[i]);
         let pos = &entity_arr[i]["position"];
         let x = match pos["x"].as_i32() {
