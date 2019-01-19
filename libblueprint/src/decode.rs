@@ -70,8 +70,7 @@ pub fn json_to_grid(s: *const u8, size: usize) -> Result<CString> {
     // new json format that contains an array of integers
     // representing the unique objects in the blueprint
     /* example grid:
-    {   "key": 
-        [
+    {   "key": [
             //idx: 0
             {"name": "assembler-2",
                 "recipe": "copper-cable"},
@@ -85,10 +84,11 @@ pub fn json_to_grid(s: *const u8, size: usize) -> Result<CString> {
             {"name": "fast-inserter",
                 "facing": "right"}
         ]
-        "grid":
-            [[ 0, 0, 0, 3, 2],
-             [ 0, 0, 0,-1, 2],
-             [ 0, 0, 0, 1, 2]]
+        "grid": [
+            [ 0, 0, 0, 3, 2],
+            [ 0, 0, 0,-1, 2],
+            [ 0, 0, 0, 1, 2]
+        ]
     }
     */
 
