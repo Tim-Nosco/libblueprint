@@ -1,3 +1,7 @@
+#[macro_use]
+extern crate serde_derive;
+extern crate serde;
+
 mod decode;
 use decode::{b64_to_json, json_to_grid};
 use std::ffi::CString;

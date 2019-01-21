@@ -20,5 +20,6 @@ RUSTFLAGS="-Z sanitizer=address" cargo hfuzz run $harness
 ```
 
 ### TODO:
-- [ ] Parse floats from the JSON (half values such as -5.5).
+- [X] Parse floats from the JSON (half values such as -5.5).
+- [X] Assemblers should reflect the actual boundry for grid calculation.
 - [ ] Migrate unit tests to RUST from python.

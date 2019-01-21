@@ -7,6 +7,8 @@ authors = ["tmnosco"]
 libflate = "*"
 base64 = "*"
 serde_json = "*"
+serde_derive = "*"
+serde = "*"
 
 [lib]
 name = "blueprint"

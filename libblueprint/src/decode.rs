@@ -11,6 +11,9 @@ use std::fmt;
 use std::error::Error as StdError;
 type Result<T> = std::result::Result<T, Box<StdError>>;
 
+mod entities;
+use self::entities::Entity;
+
 #[derive(Debug)]
 pub enum Error {  
     NullArgument,
@@ -115,25 +118,29 @@ pub fn json_to_grid(s: *const u8, size: usize) -> Result<CString> {
     let mut minx: i64 = 0; let mut miny: i64 = 0;
     let mut maxx: i64 = 0; let mut maxy: i64 = 0;
     for i in 0..entity_arr.len() {
-        //TODO: wierd bug where splitters are 1/2 coordinate
+        // println!("DEBUG: i: {} {:#}", i, entity_arr[i]);
+        //parse the x,y from json
+        let entity:Entity = serde_json::from_str(
+            &entity_arr[i].to_string()
+        )?;
+        println!("DEBUG i: {} {:?}", i, entity);
+        let x = entity.position.x.round() as i64;
+        let y = entity.position.y.round() as i64;
         //TODO: account for central position coord when 
-        // determining min and max position
-        println!("DEBUG: i: {} {:#}", i, entity_arr[i]);
-        let pos = &entity_arr[i]["position"];
-        //Errors when x == -5.5 (not i64)
-        let x = match pos["x"].as_i64() {
-            Some(e) => e,
-            None => return Err(Error::JsonParseError.into())
-        };
-        let y = match pos["y"].as_i64() {
-            Some(e) => e,
-            None => return Err(Error::JsonParseError.into())
-        };
+        // determining min and max position of assemblers.
+        // Seems like +1 if pos or -1 if neg
         println!("DEBUG: x: {:#}, y: {:#}", x, y);
+        //update boundries
         if x < minx { minx = x; }
         if x > maxx { maxx = x; }
         if y < miny { miny = y; }
         if y > maxy { maxy = y; }
+        if entity.name.contains("assembling-machine") {
+            if x-1 < minx { minx = x-1; }
+            if x+1 > maxx { maxx = x+1; }
+            if y-1 < miny { miny = y-1; }
+            if y+1 > maxy { maxy = y+1; }
+        }
     }
     println!("DEBUG: minx {} maxx {} miny {} maxy {}", minx, maxx, miny, maxy);
 
