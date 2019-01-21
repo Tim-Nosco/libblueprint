@@ -142,7 +142,10 @@ pub fn json_to_grid(s: *const u8, size: usize) -> Result<CString> {
             if y+1 > maxy { maxy = y+1; }
         }
     }
+    let width = maxx-minx+1;
+    let height = maxy-miny+1;
     println!("DEBUG: minx {} maxx {} miny {} maxy {}", minx, maxx, miny, maxy);
+    println!("DEBUG: width: {} height: {}", width, height);
 
     //converting to cstring will error if there are null bytes
     return Ok(CString::new(parsed.to_string())?);
