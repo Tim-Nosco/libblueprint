@@ -36,6 +36,7 @@ if __name__ == "__main__":
     from functools import partial
     #get json
     decoded = test1(partial(test_func,'decode_to_json'))
+    # print(decoded)
     #convert to grid
     bp = test_func('decode_to_grid', 
                     decoded.encode('utf-8'), 

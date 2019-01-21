@@ -6,7 +6,7 @@ authors = ["tmnosco"]
 [dependencies]
 libflate = "*"
 base64 = "*"
-json = "*"
+serde_json = "*"
 
 [lib]
 name = "blueprint"

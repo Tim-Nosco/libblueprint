@@ -1,6 +1,6 @@
 extern crate base64;
 extern crate libflate;
-extern crate json;
+extern crate serde_json;
 
 use self::libflate::zlib;
 use std::io::Read;
@@ -59,12 +59,11 @@ pub fn b64_to_json(s: *const u8, size: usize) -> Result<CString> {
 	decoder.read_to_end(&mut deflated)?;
 
     //convert to json (to ensure validity)
-    let parsed = json::parse(
-        &str::from_utf8(&deflated)?
-    )?.dump();
-
+    // println!("DEBUG: loading to json");
+    let parsed: serde_json::Value = serde_json::from_slice(&deflated)?;
     //converting to cstring will error if there are null bytes
-    return Ok(CString::new(parsed)?);
+    // println!("DEBUG: loading to cstring");
+    return Ok(CString::new(parsed.to_string())?);
 
 }
 
@@ -103,28 +102,30 @@ pub fn json_to_grid(s: *const u8, size: usize) -> Result<CString> {
         std::slice::from_raw_parts(s, size)
     };
     //json-parse the data
-    let parsed = json::parse(
-        &str::from_utf8(&r_str)?
-    )?;
-    //begin extracting data
+    let parsed: serde_json::Value = serde_json::from_slice(&r_str)?;
+    // //begin extracting data
     let entity_arr = &parsed["blueprint"]["entities"];
     println!("DEBUG: blueprint entities: {:#}", entity_arr);
+    let entity_arr = match entity_arr.as_array() {
+        Some(e) => e,
+        None => return Err(Error::JsonParseError.into())
+    };
     //determine min and max for x and y to calc board size
     println!("DEBUG: len: {}", entity_arr.len());
-    let mut minx: i32 = 0; let mut miny: i32 = 0;
-    let mut maxx: i32 = 0; let mut maxy: i32 = 0;
+    let mut minx: i64 = 0; let mut miny: i64 = 0;
+    let mut maxx: i64 = 0; let mut maxy: i64 = 0;
     for i in 0..entity_arr.len() {
         //TODO: wierd bug where splitters are 1/2 coordinate
         //TODO: account for central position coord when 
         // determining min and max position
-        //TODO: https://github.com/maciejhirsz/json-rust/issues/152
         println!("DEBUG: i: {} {:#}", i, entity_arr[i]);
         let pos = &entity_arr[i]["position"];
-        let x = match pos["x"].as_i32() {
+        //Errors when x == -5.5 (not i64)
+        let x = match pos["x"].as_i64() {
             Some(e) => e,
             None => return Err(Error::JsonParseError.into())
         };
-        let y = match pos["y"].as_i32() {
+        let y = match pos["y"].as_i64() {
             Some(e) => e,
             None => return Err(Error::JsonParseError.into())
         };
@@ -137,6 +138,6 @@ pub fn json_to_grid(s: *const u8, size: usize) -> Result<CString> {
     println!("DEBUG: minx {} maxx {} miny {} maxy {}", minx, maxx, miny, maxy);
 
     //converting to cstring will error if there are null bytes
-    return Ok(CString::new(parsed.dump())?);
+    return Ok(CString::new(parsed.to_string())?);
 
 }
