@@ -18,3 +18,7 @@ cargo hfuzz run $harness
 or with asan:
 RUSTFLAGS="-Z sanitizer=address" cargo hfuzz run $harness
 ```
+
+### TODO:
+- [ ] Parse floats from the JSON (half values such as -5.5).
+- [ ] Migrate unit tests to RUST from python.
